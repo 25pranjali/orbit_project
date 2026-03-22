@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/orbit_project/static/css/main.97b99c07.css",
-    "main.js": "/orbit_project/static/js/main.cebc0f34.js",
+    "main.css": "/orbit_project/static/css/main.834c66a0.css",
+    "main.js": "/orbit_project/static/js/main.5dec9127.js",
     "index.html": "/orbit_project/index.html",
-    "main.97b99c07.css.map": "/orbit_project/static/css/main.97b99c07.css.map",
-    "main.cebc0f34.js.map": "/orbit_project/static/js/main.cebc0f34.js.map"
+    "main.834c66a0.css.map": "/orbit_project/static/css/main.834c66a0.css.map",
+    "main.5dec9127.js.map": "/orbit_project/static/js/main.5dec9127.js.map"
   },
   "entrypoints": [
-    "static/css/main.97b99c07.css",
-    "static/js/main.cebc0f34.js"
+    "static/css/main.834c66a0.css",
+    "static/js/main.5dec9127.js"
   ]
 }
