@@ -1025,4 +1025,177 @@ button, select, input {
     border: none;
     border-radius: 8px;
     margin-top: 20px;
-}
+}
+
+/* Mobile Responsiveness & Toggles */
+.sidebar-toggle {
+    display: none; /* Hidden on desktop */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 3001;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: rgba(10, 14, 39, 0.9);
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    color: #00d4ff;
+    font-size: 24px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-toggle:hover {
+    background: rgba(0, 212, 255, 0.1);
+    border-color: #00d4ff;
+}
+
+.sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 1999;
+    animation: fadeIn 0.3s ease;
+}
+
+.mobile-close-btn {
+    display: none;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+    .sidebar-toggle {
+        display: flex;
+    }
+
+    .sidebar-toggle.open {
+        display: none;
+    }
+
+    .sidebar-backdrop {
+        display: block;
+    }
+
+    .mobile-close-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        background: rgba(0, 212, 255, 0.1);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        color: #00d4ff;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 280px;
+        z-index: 2000;
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.7);
+        border-right: 1px solid rgba(0, 212, 255, 0.3);
+    }
+
+    .sidebar.visible {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .side-panel {
+        width: 100% !important;
+        border-left: none;
+        z-index: 3002; /* Above sidebar toggle */
+    }
+
+    .tracker-container, .journal-container {
+        padding: 80px 20px 20px !important;
+    }
+
+    .tracker-title, .journal-title {
+        font-size: 24px;
+    }
+
+    .progress-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .stat-box {
+        padding: 10px;
+    }
+
+    .stat-number {
+        font-size: 20px;
+    }
+
+    .input-group {
+        flex-direction: column;
+    }
+
+    .btn-add {
+        width: 100%;
+    }
+
+    .canvas-container {
+        padding-top: 0;
+    }
+
+    /* Adjust digital display in time picker for smaller screens */
+    .digital-display {
+        font-size: 40px;
+    }
+    
+    .display-unit {
+        min-width: 60px;
+    }
+
+    .time-picker-modal {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .clock-face {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .sidebar {
+        width: 85%;
+    }
+    
+    .panel-actions {
+        flex-direction: column;
+    }
+    
+    .btn-small {
+        width: 100%;
+    }
+}
+

@@ -226,7 +226,8 @@ function OrbitCanvas({
 
         // Handle canvas resize
         const handleResize = () => {
-            canvas.width = window.innerWidth - 250; // Account for sidebar
+            const isMobile = window.innerWidth <= 768;
+            canvas.width = isMobile ? window.innerWidth : window.innerWidth - 250; 
             canvas.height = window.innerHeight;
         };
 
@@ -323,6 +324,60 @@ function OrbitCanvas({
         }
     }, [bodies, isDragging, onBodySelect, onStartEdit]);
 
+    // Touch events for mobile
+    const handleTouchStart = useCallback((e) => {
+        if (e.touches.length === 1) {
+            setIsDragging(true);
+            setDragStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+        }
+    }, []);
+
+    const handleTouchMove = useCallback((e) => {
+        if (isDragging && e.touches.length === 1) {
+            e.preventDefault(); // Prevent scrolling
+            const dx = (e.touches[0].clientX - dragStart.x) / zoom;
+            const dy = (e.touches[0].clientY - dragStart.y) / zoom;
+            onCameraChange({
+                x: cameraPos.x + dx,
+                y: cameraPos.y + dy
+            });
+            setDragStart({ x: e.touches[0].clientX, y: e.touches[0].clientY });
+        }
+    }, [isDragging, dragStart, zoom, cameraPos, onCameraChange]);
+
+    const handleTouchEnd = useCallback((e) => {
+        if (isDragging) {
+            setIsDragging(false);
+            
+            // Handle tap-to-select if it wasn't a significant drag
+            if (e.changedTouches.length === 1) {
+                const canvas = canvasRef.current;
+                const rect = canvas.getBoundingClientRect();
+                const clickX = e.changedTouches[0].clientX - rect.left;
+                const clickY = e.changedTouches[0].clientY - rect.top;
+
+                let clickedBody = null;
+                let maxDistance = 30; // Slightly larger for touch
+
+                bodies.forEach(body => {
+                    if (body._screenPos) {
+                        const { x: screenX, y: screenY, size } = body._screenPos;
+                        const distance = Math.sqrt((clickX - screenX) ** 2 + (clickY - screenY) ** 2);
+
+                        if (distance <= size + 15 && distance < maxDistance) {
+                            clickedBody = body;
+                            maxDistance = distance;
+                        }
+                    }
+                });
+
+                if (clickedBody) {
+                    onBodySelect(clickedBody.id);
+                }
+            }
+        }
+    }, [isDragging, bodies, onBodySelect]);
+
     return (
         <div
             className="canvas-container"
@@ -331,6 +386,9 @@ function OrbitCanvas({
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             onClick={handleCanvasClick}
         >
             <canvas ref={canvasRef} />

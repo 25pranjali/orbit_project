@@ -113,6 +113,11 @@ function App() {
     const [settingsPanel, setSettingsPanel] = useState({ visible: false });
     const [editingBodyId, setEditingBodyId] = useState(null);
     const [editValue, setEditValue] = useState('');
+    const [sidebarVisible, setSidebarVisible] = useState(false);
+
+    const toggleSidebar = useCallback(() => {
+        setSidebarVisible(prev => !prev);
+    }, []);
 
     // Navigation history - store snapshots of systems
     const [history, setHistory] = useState([]);
@@ -553,7 +558,19 @@ function App() {
 
     return (
         <div className={`app-container ${settings.theme}`}>
+            <button 
+                className={`sidebar-toggle ${sidebarVisible ? 'open' : ''}`}
+                onClick={toggleSidebar}
+                aria-label="Toggle Sidebar"
+            >
+                {sidebarVisible ? '✕' : '☰'}
+            </button>
+
+            {sidebarVisible && <div className="sidebar-backdrop" onClick={toggleSidebar} />}
+            
             <Sidebar
+                visible={sidebarVisible}
+                onClose={() => setSidebarVisible(false)}
                 systems={systems}
                 activeSystemId={activeSystemId}
                 onSystemChange={setActiveSystemId}

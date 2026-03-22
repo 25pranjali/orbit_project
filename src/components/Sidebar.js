@@ -6,6 +6,8 @@ import './Sidebar.css';
  * Navigation and system management
  */
 function Sidebar({
+    visible,
+    onClose,
     systems,
     activeSystemId,
     onSystemChange,
@@ -110,9 +112,14 @@ function Sidebar({
     };
 
     return (
-        <div className="sidebar">
+        <div className={`sidebar ${visible ? 'visible' : ''}`}>
             <div className="sidebar-header">
-                <h2>Orbit Tasks</h2>
+                <div className="header-top">
+                    <h2>Orbit Tasks</h2>
+                    <button className="mobile-close-btn" onClick={onClose} aria-label="Close Sidebar">
+                        ✕
+                    </button>
+                </div>
                 <div className="header-actions">
                     <button
                         className="action-btn"
